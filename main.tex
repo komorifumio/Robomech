@@ -1,0 +1,76 @@
+\documentclass{jarticle}
+%数式
+\usepackage{amsmath,amssymb} 
+%図
+\usepackage[dvipdfmx]{graphicx,color} 
+\usepackage{adjustbox}
+\usepackage{here}
+\usepackage{caption} 
+\usepackage{subcaption}
+\usepackage{cleveref}  
+%表
+\usepackage{makecell} %セルを定義する
+%その他
+\usepackage{bm}
+\usepackage{url}
+\usepackage{siunitx}
+\sisetup{inter-unit-product=\ensuremath{{}\cdot{}}} % 単位間に "·" を入れる
+\usepackage{cite}
+\usepackage{comment}  %\begin{comment} と \end{comment} の間に記述した内容が全て無視される。
+                      %\includecomment{comment}でコメントブロック
+\usepackage{robomech}
+
+\def\authorinfo{
+    \begin{tabular}{ll}
+		○学\hspace{1zw}氏名 (京都大) & 正\hspace{1zw}川節 拓実 (京都大)\\
+		\hspace{1zw}正\hspace{1zw}細田 耕 (京都大) 
+    \end{tabular}
+    \smallskip \\  % 適切な間隔
+    \begin{tabular}{l}
+        {\small NAME, Kyoto University, uehara.haruka.56u@st.kyoto-u.ac.jp}\\
+        {\small Takumi KAWASETSU, Kyoto University}\\
+        {\small Koh HOSODA, Kyoto University}
+    \end{tabular}
+}
+
+\begin{document}
+\makeatletter
+\title{タイトル}
+{title}
+
+\author{\authorinfo}
+\makeatother
+
+\abstract{\input{tex/abstract.tex}}
+
+\keywords{}
+
+\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+
+\maintext
+
+\section{緒言}%===========================
+\input{tex/introduction.tex}
+
+\section{摩擦を制御可能な肩関節}
+\input{tex/method.tex}
+
+\section{実験}
+\input{tex/experiment.tex}
+
+\section{議論} 
+\input{tex/discussion.tex} 
+
+\section{結言}
+\input{tex/conclusion.tex}
+
+\input{tex/acknowledgement.tex}
+
+\footnotesize
+\begin{thebibliography}{99}
+\input{tex/citation.tex}
+\end{thebibliography}
+\normalsize
+\end{document}
