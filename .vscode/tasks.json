@@ -1,0 +1,39 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build PDF (platex)",
+      "type": "shell",
+      "command": "platex",
+      "args": [
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "main.tex"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Build PDF (dvipdfmx)",
+      "type": "shell",
+      "command": "dvipdfmx",
+      "args": [
+        "main.dvi"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Build PDF",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Build PDF (platex)",
+        "Build PDF (platex)",
+        "Build PDF (dvipdfmx)"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}
