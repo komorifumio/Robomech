@@ -1,6 +1,10 @@
 {
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 500,
   "latex-workshop.latex.autoBuild.run": "never",
+  "latex-workshop.latex.build.enableMagicComments": false,
   "latex-workshop.latex.recipe.default": "platex -> dvipdfmx",
+  "latex-workshop.latex.outDir": "%DIR%",
   "latex-workshop.latex.tools": [
     {
       "name": "platex",

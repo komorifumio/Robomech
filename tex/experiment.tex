@@ -1,12 +1,70 @@
+% !TeX root = ../main.tex
+\begin{figure}[htbp]
+  \centering
+  \begin{minipage}[t]{0.65\linewidth}
+    \vspace{0pt}
+    \centering
+    \includegraphics[width=\linewidth]{tex/Image/experimentsetup.drawio.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.30\linewidth}
+    \vspace{0pt}
+    \centering
+    \includegraphics[width=\linewidth]{tex/Image/lateralview.pdf}
+    {\footnotesize CAM1\par}
+    \vspace{2mm}
+    \includegraphics[width=\linewidth]{tex/Image/topview.pdf}
+    {\footnotesize CAM2\par}
+  \end{minipage}
+  \caption{Experimental setup for the grasping task (left) and camera views (right). Camera 1 provides a lateral view and Camera 2 provides a top view. An obstacle is placed so that the target Kim towel is occluded from the lateral view.}
+  \label{fig:experiment_setup_grasp}
+\end{figure}
 本実験では，提案手法における触覚情報の有用性を検証するため，触覚センサ情報の有無（sensor\_on / sensor\_off）がタスク成功率に与える影響を比較した．タスクは，積層されたシート状柔軟物（キムタオル）を把持し，所定の場所へ搬送する動作とした．なお，実験環境の構築にあたっては，双腕ロボットによる協調作業や深箱内の物体操作において発生しうる，視覚的な遮蔽状況を再現した．具体的には，Fig.~\ref{fig:experiment_setup_grasp}に示すように紺色の障害物を設置し，側面カメラ（Camera 1）からは対象物（キムタオル）の高さ情報が得られない環境を構築した．\par
 
 \subsection{タスクの教示，学習条件}
-教示データ収集では，Fig.~\ref{fig:experiment_setup_grasp}に示すセットアップにおいて，リーダーアームを用いたテレオペレーションにより，積層されたシート状柔軟物（キムタオル）の最上位1枚のみを把持し，障害物の左側へ搬送する動作を行った．この際，正面の障害物を回避しながらアプローチする必要があるため，7自由度アームの冗長性を活かした操作が要求される．\par
-対象物であるシート状柔軟物（キムタオル）の積層枚数は，50枚，40枚，30枚，20枚，10枚の5段階とし，各条件につき2回，計10回分の教示データを収集した．データ収集時には触覚センサの生データ値も記録し，学習時にはこのセンサ値を使用しない条件（sensor\_off）と，使用する条件（sensor\_on）の2条件でモデルを生成した．\par
+教示データ収集では，Fig.~\ref{fig:experiment_setup_grasp}に示すセットアップにおいて，リーダーアームを用いたテレオペレーションにより，積層されたシート状柔軟物（キムタオル）の最上位1枚のみを把持し，障害物の左側へ搬送する動作を行った．対象物であるシート状柔軟物（キムタオル）の積層枚数は，50枚，40枚，30枚，20枚，10枚の5段階とし，各条件につき2回，計10回分の教示データを収集した．データ収集時には触覚センサの生データ値も記録し，学習時にはこのセンサ値を使用しない条件（sensor\_off）と，使用する条件（sensor\_on）の2条件でモデルを生成した．\par
 
 学習モデルのトレーニングは，AMD Ryzen 9 9950X CPU，NVIDIA GeForce RTX 5080 GPU (16GB)，および64GBのメモリを搭載したPC（OS: Ubuntu 24.04.3 LTS）を用いて実施した．ハイパーパラメータに関しては，バッチサイズを8，学習ステップ数を20,000ステップに設定した．学習時間はすべておおむね40分程度であった．\par
 
 また，本研究で使用するイオン液体センサは，周囲温度の変化に伴いベースラインとなる抵抗値が変動する特性を持つ．この環境変動（温度ドリフト）の影響を排除するため，各データ収集セットの開始時にキャリブレーション処理を導入した．具体的には，動作開始前の5秒間におけるセンサの生データ（0-1023）を静止状態で取得し，その平均値を算出する．タスク実行中は，その平均値を基に生データをゼロ点補正（基準を500に設定）した値を学習および推論への入力とすることで，実験ごとの温度条件の差異を吸収した．\par
 
 \subsection{タスクの評価と成功率}
-タスクの成功条件は，「積層されたシート状柔軟物（キムタオル）から1枚のみを把持し，障害物左側の目標領域へ搬送すること」と定義した．目標領域は障害物の左側全域である．最初の把持動作でキムタオルを掴み損ねてロボットが自律的に再把持（リトライ）動作を行った場合は，それ以降の動作にかかわらず失敗と判定した．\par
+タスクの成功条件は，「積層されたシート状柔軟物（キムタオル）から1枚のみを把持し，障害物左側の目標領域へ搬送すること」と定義した．目標領域は障害物の左側全域である．最初の把持動作でキムタオルを掴み損ねてロボットが自律的に再把持（リトライ）動作を行った場合は，それ以降の動作にかかわらず失敗と判定した．以下の表に，各条件での成功率を示す．Table\ref{tab:success_rate_30mm}は指先を教示データと同じ長さにした場合，Table\ref{tab:success_rate_0mm}は指先を30mm短くした場合の成功率である．\par
+
+\begin{table}[htbp]
+\centering
+\begin{minipage}[t]{0.48\textwidth}
+  \centering
+  \captionof{table}{Success rate with fingers extended by 30mm (same as training dataset)}
+  \label{tab:success_rate_30mm}
+  \begin{tabular}{|l|l|l|}
+  \hline
+  sheets & sensor\_on & sensor\_off \\ \hline
+  60     & 100.0(5/5) & 20.0(1/5)   \\ \hline
+  50     & 100.0(5/5) & 60.0(3/5)   \\ \hline
+  40     & 100.0(5/5) & 0.0(0/5)    \\ \hline
+  30     & 100.0(5/5) & 100.0(5/5)  \\ \hline
+  20     & 100.0(5/5) & 100.0(5/5)  \\ \hline
+  10     & 100.0(5/5) & 100.0(5/5)  \\ \hline
+  1      & 100.0(5/5) & 20.0(1/5)   \\ \hline
+  \end{tabular}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\textwidth}
+  \centering
+  \captionof{table}{Success rate with fingers extended by 0mm (different from training dataset)}
+  \label{tab:success_rate_0mm}
+  \begin{tabular}{|l|l|l|}
+  \hline
+  sheets & sensor\_on  & sensor\_off \\ \hline
+  60     & 100.0(5/5) & 100.0(5/5) \\ \hline
+  50     & 100.0(5/5) & 80.0(4/5) \\ \hline
+  40     & 100.0(5/5) & 100.0(5/5) \\ \hline
+  30     & 100.0(5/5) & 100.0(5/5) \\ \hline
+  20     & 80.0(4/5)  & 0.0(0/5)  \\ \hline
+  10     & 100.0(5/5) & 0.0(0/5)   \\ \hline
+  1      & 0.0(0/5)   & 0.0(0/5)   \\ \hline
+  \end{tabular}
+\end{minipage}
+\end{table}
+
+教示データと同一の指長さを用いた場合，Sensor\_on条件では教示データに含まれない高さ条件であっても100\%の成功率を達成した．一方で，Sensor\_off条件では，把持高さが教示データと異なる場合に成功率が著しく低下したほか，教示データと同一の高さであっても一部で成功率の低下が確認された．これは，ソフトフィンガーが対象に接触した際の抵抗値変化をトリガーとして把持動作が調整されているためであることが示唆される．すなわち，視覚情報の不確実性を触覚情報が補完することで，環境変動（高さの変化）に対するロバスト性が向上したと結論付けられる．
+Sensor\_off条件における失敗エピソードを確認すると，アームが対象の手前で停止する，あるいは押し込んではいるがつかみ損ねるといった動作が確認されたため，失敗は画像特徴量による高さ推定の精度不足に起因すると考えられる．次に，指の長さが教示時より短い場合，Sensor\_on条件は概ね高い成功率を維持した．しかし，対象物が「1枚」の場合に限っては，把持に失敗し成功率は0\%となった．\par
