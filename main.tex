@@ -11,6 +11,9 @@
 \usepackage{cleveref}  
 %表
 \usepackage{makecell} %セルを定義する
+%グラフ
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
 %その他
 \usepackage{bm}
 \usepackage{url}
@@ -23,13 +26,13 @@
 
 \def\authorinfo{
     \begin{tabular}{ll}
-		○\hspace{1zw}小森文雄 (京都大)\hspace{1zw}辻 大樹 (京都大)\\
-        \hspace{1zw}川節 拓実 (京都大)\hspace{1zw}細田 耕 (京都大) 
+		○\hspace{1zw}小森文雄 (京都大)
+        \hspace{1zw}正　川節 拓実 (京都大)\\
+        \hspace{1zw}正　細田 耕 (京都大) 
     \end{tabular}
     \smallskip \\  % 適切な間隔
     \begin{tabular}{l}
         {\small FUMIO KOMORI, Kyoto University, komori.fumio.87e@st.kyoto-u.ac.jp}\\
-        {\small Hiroki TSUJI, Kyoto University}\\
         {\small Takumi KAWASETSU, Kyoto University}\\
         {\small Koh HOSODA, Kyoto University}
     \end{tabular}
@@ -69,7 +72,7 @@
 \section{結言}
 \input{tex/conclusion.tex}
 
-% \input{tex/acknowledgement.tex}
+\input{tex/acknowledgement.tex}
 
 \footnotesize
 \begin{thebibliography}{99}
